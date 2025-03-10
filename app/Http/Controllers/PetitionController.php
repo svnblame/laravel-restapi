@@ -48,7 +48,12 @@ class PetitionController extends Controller
      */
     public function update(Request $request, Petition $petition)
     {
-        //
+        // @todo Implement authentication here... Only User that created the given petition can update it.
+        $petition->update($request->only([
+            'title', 'description', 'category', 'author', 'signees'
+        ]));
+
+        return new PetitionResource($petition);
     }
 
     /**
