@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PetitionCollection;
 use App\Http\Resources\PetitionResource;
 use App\Models\Petition;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PetitionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return PetitionCollection
+     * @return JsonResponse
      */
     public function index()
     {
-        return new PetitionCollection(Petition::all());
+        return response()->json(new PetitionCollection(Petition::all()), Response::HTTP_OK);
     }
 
     /**
@@ -61,6 +63,9 @@ class PetitionController extends Controller
      */
     public function destroy(Petition $petition)
     {
-        //
+        // @todo Implement authentication here... Only Users authorized to delete Petitions.
+        $petition->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
